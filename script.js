@@ -3,6 +3,35 @@ loading.style.display = "block";
 var activeTr = document.getElementsByClassName("active");
 var tableBody = document.getElementsByTagName("tbody");
 
+// Function to sort data
+function sortArray(arr) {
+  var arrAns = [];
+  var arrIndex = [];
+  var arrRepeat = [];
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr.length; j++) {
+      if (arr[i].id > arr[j].id) {
+        if (arrIndex[i] === undefined) {
+          arrIndex[i] = 0;
+        }
+        arrIndex[i] += 1;
+      } else if (arr[i].id === arr[j].id) {
+        if (arrRepeat[i] === undefined) {
+          arrRepeat[i] = 0;
+          if (arrIndex[i] === undefined) {
+            arrIndex[i] = 0;
+          }
+        }
+        arrRepeat[i] += 1;
+      }
+    }
+    for (var k = 0; k < arrRepeat[i]; k++) {
+      arrAns[arrIndex[i] + k] = arr[i];
+    }
+  }
+  return arrAns;
+}
+
 // Function to show selected user data
 function setData(element, keyValData) {
   var infoDiv = document.getElementById("info-content");
@@ -29,6 +58,7 @@ function setData(element, keyValData) {
 
 // Function to Create Table Rows
 function createTableRow(keys, data, keyValData) {
+  data = sortArray(data);
   for (var i = 0; i < data.length; i++) {
     var tableRow = document.createElement("tr");
     for (var j = 0; j < keys.length - 2; j++) {
